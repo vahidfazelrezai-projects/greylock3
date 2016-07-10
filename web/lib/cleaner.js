@@ -3,7 +3,8 @@ var cleaner = {};
 
 cleaner.clean = function (html, cb) {
   var $ = cheerio.load(html);
-  $('img').remove()
+  $('img').remove();
+  $('script').remove();
   cb($.html());
 }
 
