@@ -38,7 +38,7 @@ app.post('/event', function (req, res) {
 app.get('/*', function (req, res) {
   var url = req.path.substring(1);
   model.open(url, function (html) {
-    cleaner.clean(html, function(cleanedHtml) {
+    cleaner.clean(html, url, function(cleanedHtml) {
       res.send(cleanedHtml);
     });
   });
