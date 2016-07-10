@@ -21,6 +21,6 @@
     "morgan": "^1.7.0",
     "node-horseman": "^3.1.1",
     "request": "^2.73.0",
-    "zombie": "^3.1.0"
+    "zombie": "^3.1.1"
   }
 }
