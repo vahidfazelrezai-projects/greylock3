@@ -2,3 +2,4 @@ web/node_modules
 web/npm_debug.log
 **/.DS_Store
 build/images
+build

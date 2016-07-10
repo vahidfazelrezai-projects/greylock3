@@ -25,10 +25,11 @@ var download = function(uri, filename, callback){
         }
         console.log(err);
         type = res.headers['content-type'];
+        length = res.headers['content-length'];
         console.log('content-type:', res.headers['content-type']);
         console.log('content-length:', res.headers['content-length']);
 
-        request(uri).pipe(fs.createWriteStream(filename)).on('close', function() {callback(type)});
+        request(uri).pipe(fs.createWriteStream(filename)).on('close', function() {callback(type, length)});
     });
 };
 
@@ -147,8 +148,9 @@ cleaner.clean = function (html, url, cb) {
 
           // file = "image-" + src.split("/").pop();
           file = "image-" + Date.now().toString();
-          download(src, file, function(type){
-              if (!type) {
+          download(src, file, function(type, length){
+              if (!type || length < 15000) {
+                  $(elem).remove();
                   processImage(i+1);
               } else {
                   imagemin([file], 'build/images', {

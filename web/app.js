@@ -35,6 +35,18 @@ app.post('/event', function (req, res) {
   res.send('got it')
 });
 
+app.get('/*.png', function (req, res) {
+  res.send('x')
+});
+
+app.get('/*.jpg', function (req, res) {
+  res.send('x')
+});
+
+app.get('/*.jpeg', function (req, res) {
+  res.send('x')
+});
+
 app.get('/*', function (req, res) {
   var url = req.path.substring(1);
   model.open(url, function (html) {
