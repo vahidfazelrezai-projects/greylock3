@@ -27,6 +27,9 @@ var phantom = require('phantom');
 var _ph, _page, _outObj;
 
 model.open = function(url, cb) {
+  if (['http', 'https'].indexOf(url.split(':')[0]) === -1) {
+    url = 'http://' + url;
+  }
   phantom.create().then(ph => {
     _ph = ph;
     return _ph.createPage();
