@@ -1,7 +1,12 @@
+// PACKAGES //
 var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var fs = require('fs');
+
+// PROCESSOR //
+var driver = require('./processor/driver');
+var simplifier = require('./processor/simplifier');
 
 // APP //
 var app = express();
