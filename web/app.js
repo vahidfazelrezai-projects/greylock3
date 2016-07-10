@@ -13,6 +13,8 @@ var cleaner = require('./lib/cleaner');
 var app = express();
 var port = '5000';
 
+FILEEXTS = ['.jpg', '.jpeg', '.png', '.ico', '.gif']
+
 // VIEW ENGINE //
 app.set('view engine', 'html');
 app.engine('html', function(path, options, callback) {
@@ -35,23 +37,48 @@ app.post('/event', function (req, res) {
   res.send('got it')
 });
 
-app.get('/*.png', function (req, res) {
-  res.send('x')
+// app.get('/*.png', function (req, res) {
+//   res.send('x')
+// });
+
+// app.get('/*.jpg', function (req, res) {
+//   res.send('x')
+// });
+
+// app.get('/*.jpeg', function (req, res) {
+//   res.send('x')
+// });
+// app.get('/*.ico', function (req, res) {
+//   res.send('x')
+// });
+
+app.get('/noimg/*', function (req, res) {
+  var url = req.path.substring(7);
+  console.log(url);
+  if (url.indexOf('.') > -1) {
+    var fileext = url.split('.').pop()
+    if (FILEEXTS.indexOf(fileext) > -1) {
+      res.send("x");
+      return;
+    } 
+  }
+  model.open(url, function (html) {
+    cleaner.cleannoimg(html, url, function(cleanedHtml) {
+      res.send(cleanedHtml);
+    });
+  });
 });
 
-app.get('/*.jpg', function (req, res) {
-  res.send('x')
-});
-
-app.get('/*.jpeg', function (req, res) {
-  res.send('x')
-});
-app.get('/*.ico', function (req, res) {
-  res.send('x')
-});
-
-app.get('/*', function (req, res) {
-  var url = req.path.substring(1);
+app.get('/withimg/*', function (req, res) {
+  var url = req.path.substring(9);
+  console.log(url);
+  if (url.indexOf('.') > -1) {
+    var fileext = url.split('.').pop()
+    if (FILEEXTS.indexOf(fileext) > -1) {
+      res.send("x");
+      return;
+    } 
+  }
   model.open(url, function (html) {
     cleaner.clean(html, url, function(cleanedHtml) {
       res.send(cleanedHtml);

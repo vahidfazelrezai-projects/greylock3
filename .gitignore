@@ -3,3 +3,4 @@ web/npm_debug.log
 **/.DS_Store
 build/images
 build
+**/npm-debug.log

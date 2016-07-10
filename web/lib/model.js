@@ -26,7 +26,10 @@ var Horseman = require('node-horseman');
 
 model.open = function(url, cb) {
   var horseman = new Horseman();
-  if (['http', 'https'].indexOf(url.split(':')[0]) === -1) {
+  if (url.indexOf("//") === 0) {
+      url = "http:" + url;
+  }
+  else if (['http', 'https'].indexOf(url.split(':')[0]) === -1) {
     url = 'http://' + url;
   }
   horseman
