@@ -58,10 +58,51 @@ window.onclick = function(e){
 
         window.location.href = newLocation;
     }
+
+    button = findParent('button', e.target || e.srcElement);
+    if (button && button.type === "submit") {
+        form = findParent('form', e.target || e.srcElement);
+        if (form) {
+            elements = form.elements;
+            formElements = [];
+            for (i = 0; i < elements.length; i++) {
+                formElement = {};
+                element = elements[i];
+                console.log(element);
+                attributes = {};
+                for (var att, j = 0, atts = element.attributes, n = atts.length; j < n; j++){
+                    att = atts[j];
+                    attributes[att.nodeName] = att.nodeValue;
+                }
+                formElement['attributes'] = attributes;
+                formElement['value'] = element.value;
+
+                formElements.push(formElement);
+                if (element.type === "text" && element.value === "") {
+                    console.log("it's an empty textfield");
+                }
+            }
+
+            for (var att, j = 0, atts = button.attributes, n = atts.length; j < n; j++){
+                att = atts[j];
+                attributes[att.nodeName] = att.nodeValue;
+            }
+            formElements.push(attributes);
+
+            reqData = {"button": attributes, "elements": formElements};
+            console.log(JSON.stringify(reqData));
+            var request = new XMLHttpRequest();
+            request.open('POST', '/my/url', true);
+            request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            request.send(JSON.stringify(reqData));
+        } else {
+            console.log("not a form");
+        }
+    }
 }
 
 //find first parent with tagName [tagname]
-function findParent(tagname,el){
+function findParent(tagname, el){
     if ((el.nodeName || el.tagName).toLowerCase() === tagname.toLowerCase()){
         return el;
     }
