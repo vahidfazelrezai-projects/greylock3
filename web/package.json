@@ -16,9 +16,11 @@
     "imagemin": "^5.2.2",
     "imagemin-mozjpeg": "^6.0.0",
     "imagemin-pngquant": "^5.0.0",
+    "inline-css": "^2.2.2",
+    "juice": "^2.0.0",
     "morgan": "^1.7.0",
-    "request": "^2.73.0",
     "node-horseman": "^3.1.1",
+    "request": "^2.73.0",
     "zombie": "^3.1.0"
   }
 }

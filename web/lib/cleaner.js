@@ -5,6 +5,7 @@ request = require('request');
 imagemin = require('imagemin');
 imageminMozjpeg = require('imagemin-mozjpeg');
 imageminPngquant = require('imagemin-pngquant');
+juice = require('juice');
 
 
 var cleaner = {};
@@ -20,7 +21,9 @@ var download = function(uri, filename, callback){
         if (err) {
             console.log("ERROR:", err);
             callback(null);
+            return;
         }
+        console.log(err);
         type = res.headers['content-type'];
         console.log('content-type:', res.headers['content-type']);
         console.log('content-length:', res.headers['content-length']);
@@ -52,7 +55,6 @@ returnBase = function(parts) {
 }
 
 cleaner.clean = function (html, url, cb) {
-    console.log(url);
     var $ = cheerio.load(html);
     images = $('img');
     processImage = function(i) {
@@ -67,7 +69,14 @@ cleaner.clean = function (html, url, cb) {
                             return console.log(err);
                         }
                         $('head').append("\n<script>\n" + data + "\n</script>\n");
-                        cb($.html());
+                        options = {preserveFontFaces: false};
+                        try {
+                            var res = juice($.html(), options);
+                            cb(res);
+                        } catch(e) {
+                            console.log("error with juice", e);
+                            cb($.html());
+                        }
                     });
                     return;
                 }
@@ -76,15 +85,19 @@ cleaner.clean = function (html, url, cb) {
                 console.log(href);
                 if (href.indexOf(".css") > -1) {
                     console.log("THIS IS A CSS FILE");
+                    parts = PARSE_URL.exec(url);
+                    base = returnBase(parts);
+                    if (base.indexOf("http") !== 0) {
+                        base = "http://" + base;
+                    }
                     if (!isValidURL(href)) {
-                        parts = PARSE_URL.exec(url);
-                        base = returnBase(parts);
-                        if (base.indexOf("http") !== 0) {
-                            base = "http://" + base;
-                        }
                         console.log("isnt valid url, new url is", base + "/" + href);
                         href = base + "/" + href;
                     }
+                    if (href.indexOf("./") === 0) {
+                        href = base + "/" + href.substring(2);
+                    }
+
                     // yay its css
                     request.get(href, function (error, response, body) {
                         console.log("error downloading:", error);
@@ -122,7 +135,12 @@ cleaner.clean = function (html, url, cb) {
             src = base + "/" + src;
         }
 
+        if (src.indexOf("//") === 0) {
+            src = "http:" + src;
+        }
+
         file = "image-" + src.split("/").pop();
+
         download(src, file, function(type){
             if (!type) {
                 processImage(i+1);
