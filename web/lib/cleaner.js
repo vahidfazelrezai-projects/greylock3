@@ -145,8 +145,8 @@ cleaner.clean = function (html, url, cb) {
               src = "http:" + src;
           }
 
-          file = "image-" + src.split("/").pop();
-
+          // file = "image-" + src.split("/").pop();
+          file = "image-" + Date.now().toString();
           download(src, file, function(type){
               if (!type) {
                   processImage(i+1);
