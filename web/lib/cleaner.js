@@ -7,6 +7,7 @@ var cleaner = {};
 cleaner.clean = function (html, cb) {
   var $ = cheerio.load(html);
   $('img').remove();
+  $('script').remove();
 
   fs.readFile(path.resolve(__dirname, '../client/lighten.js'), 'utf8', function (err, data) {
     if (err) {
