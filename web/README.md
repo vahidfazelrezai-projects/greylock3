@@ -1,7 +1,12 @@
-to dev:
-`npm install'
-`npm dev'
+### to dev
 
-to run:
-`npm install'
-`npm start'
+```npm install```
+
+```npm dev```
+
+
+### to run
+
+```npm install```
+
+```npm start```
