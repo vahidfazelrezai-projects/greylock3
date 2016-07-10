@@ -2,7 +2,7 @@
 
 ```npm install```
 
-```npm dev```
+```npm run dev```
 
 
 ### to run
