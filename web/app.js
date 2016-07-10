@@ -33,7 +33,9 @@ app.get('/', function (req, res) {
 app.get('/*', function (req, res) {
     var url = req.path.substring(1);
     model.open(url, function (html) {
-      res.send(html);
+      cleaner.clean(html, function(cleanedHtml) {
+        res.send(cleanedHtml);
+      });
     });
 });
 

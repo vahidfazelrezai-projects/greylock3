@@ -4,7 +4,7 @@ var model = {};
 var browser = new Browser();
 
 model.open = function (url, cb) {
-  if (!(url.split(':')[0] in ['http', 'https'])) {
+  if (['http', 'https'].indexOf(url.split(':')[0]) === -1) {
     url = 'http://' + url;
   }
   browser.visit(url, function(error) {

@@ -1,24 +1,10 @@
-const htmlparser = require("htmlparser2");
+const cheerio = require('cheerio')
 var cleaner = {};
 
-cleaner.clean = function (html) {
-  var parser = new htmlparser.Parser({
-    onopentag: function(name, attribs){
-      if(name === "script" && attribs.type === "text/javascript"){
-          console.log("JS! Hooray!");
-      }
-    },
-    ontext: function(text){
-      console.log("-->", text);
-    },
-    onclosetag: function(tagname){
-      if(tagname === "script"){
-          console.log("That's it?!");
-      }
-    }
-  }, {decodeEntities: true});
-  parser.write("Xyz <script type='text/javascript'>var foo = '<<bar>>';</ script>");
-  parser.end();
+cleaner.clean = function (html, cb) {
+  var $ = cheerio.load(html);
+  $('img').remove()
+  cb($.html());
 }
 
 module.exports = cleaner;
