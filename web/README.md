@@ -1,5 +1,7 @@
 ### to dev
 
+`npm install -g phantomjs-prebuilt`
+
 ```npm install```
 
 ```npm run dev```
