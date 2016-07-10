@@ -46,6 +46,9 @@ app.get('/*.jpg', function (req, res) {
 app.get('/*.jpeg', function (req, res) {
   res.send('x')
 });
+app.get('/*.ico', function (req, res) {
+  res.send('x')
+});
 
 app.get('/*', function (req, res) {
   var url = req.path.substring(1);
