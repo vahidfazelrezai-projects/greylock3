@@ -1,4 +1,4 @@
-var htmlparser = require("htmlparser2");
+const htmlparser = require("htmlparser2");
 var cleaner = {};
 
 cleaner.clean = function (html) {

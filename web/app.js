@@ -32,7 +32,9 @@ app.get('/', function (req, res) {
 
 app.get('/*', function (req, res) {
     var url = req.path.substring(1);
-    res.send(url);
+    model.open(url, function (html) {
+      res.send(html);
+    });
 });
 
 // RUN APP //
