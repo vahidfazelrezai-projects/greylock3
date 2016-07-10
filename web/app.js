@@ -16,7 +16,7 @@ var port = '5000';
 // VIEW ENGINE //
 app.set('view engine', 'html');
 app.engine('html', function(path, options, callback) {
-    fs.readFile(path, 'utf-8', callback);
+  fs.readFile(path, 'utf-8', callback);
 });
 
 // MIDDLEWARE //
@@ -27,16 +27,21 @@ app.use(bodyParser.urlencoded({ extended: true })); // parse forms
 
 // ROUTES //
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, '../client/views/index.html'));
+  res.sendFile(path.join(__dirname, '../client/views/index.html'));
+});
+
+app.post('/event', function (req, res) {
+  console.log(req.body);
+  res.send('got it')
 });
 
 app.get('/*', function (req, res) {
-    var url = req.path.substring(1);
-    model.open(url, function (html) {
-      cleaner.clean(html, function(cleanedHtml) {
-        res.send(cleanedHtml);
-      });
+  var url = req.path.substring(1);
+  model.open(url, function (html) {
+    cleaner.clean(html, function(cleanedHtml) {
+      res.send(cleanedHtml);
     });
+  });
 });
 
 // RUN APP //
