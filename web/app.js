@@ -5,8 +5,8 @@ var bodyParser = require('body-parser');
 var fs = require('fs');
 
 // PROCESSOR //
-var driver = require('./processor/driver');
-var simplifier = require('./processor/simplifier');
+var model = require('./lib/model');
+var cleaner = require('./lib/cleaner');
 
 // APP //
 var app = express();
@@ -25,8 +25,8 @@ app.use(bodyParser.json()); // parse json
 app.use(bodyParser.urlencoded({ extended: true })); // parse forms
 
 // ROUTES //
-app.get('/', function (req, res) {
-    res.send('hi');
+app.get('/:url', function (req, res) {
+    res.send(req.params.url);
 });
 
 // RUN APP //
