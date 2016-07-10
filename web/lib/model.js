@@ -23,27 +23,23 @@
 // module.exports = model;
 
 var model = {};
-var phantom = require('phantom');
-var _ph, _page, _outObj;
+var Horseman = require('node-horseman');
 
 model.open = function(url, cb) {
+  var horseman = new Horseman();
   if (['http', 'https'].indexOf(url.split(':')[0]) === -1) {
     url = 'http://' + url;
   }
-  phantom.create().then(ph => {
-    _ph = ph;
-    return _ph.createPage();
-  }).then(page => {
-    _page = page;
-    return _page.open(url);
-  }).then(status => {
-    return _page.property('content')
-  }).then(content => {
-    console.log(content);
-    cb(content);
-    _page.close();
-    _ph.exit();
-  });
+  horseman
+    .open(url)
+    .html()
+    .then(function(html){
+      cb(html); 
+    })
+    .finally(function(){
+      return horseman.close();
+    })
+    
 }
 
 module.exports = model;
